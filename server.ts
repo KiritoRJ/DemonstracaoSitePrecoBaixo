@@ -1,5 +1,4 @@
 import express from "express";
-import { createServer as createViteServer } from "vite";
 import path from "path";
 import fs from "fs";
 import crypto from "crypto";
@@ -39,15 +38,26 @@ const ai = new GoogleGenAI({
   },
 });
 
-// Persistent local JSON store (ready to be swapped for SQL later)
-const DATA_DIR = path.resolve(process.cwd(), "server-data");
+// Persistent local JSON store (or /tmp seeded store on Vercel serverless)
+const BUNDLED_DATA_DIR = path.resolve(process.cwd(), "server-data");
+const DATA_DIR = process.env.VERCEL ? "/tmp/pb-server-data" : BUNDLED_DATA_DIR;
 const RESUMES_DIR = path.join(DATA_DIR, "resumes");
-const UPLOADS_DIR = path.resolve(process.cwd(), "public/pb-assets/uploads");
+const UPLOADS_DIR = process.env.VERCEL
+  ? "/tmp/pb-uploads"
+  : path.resolve(process.cwd(), "public/pb-assets/uploads");
 const DB_FILE = path.join(DATA_DIR, "db.json");
 
 fs.mkdirSync(DATA_DIR, { recursive: true });
 fs.mkdirSync(RESUMES_DIR, { recursive: true });
 fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+
+if (process.env.VERCEL && !fs.existsSync(DB_FILE) && fs.existsSync(path.join(BUNDLED_DATA_DIR, "db.json"))) {
+  fs.copyFileSync(path.join(BUNDLED_DATA_DIR, "db.json"), DB_FILE);
+  const bundledResumes = path.join(BUNDLED_DATA_DIR, "resumes");
+  if (fs.existsSync(bundledResumes)) {
+    fs.cpSync(bundledResumes, RESUMES_DIR, { recursive: true, force: false });
+  }
+}
 
 export interface JobPosting {
   id: string;
@@ -930,50 +940,51 @@ app.post("/api/ai/recipe", async (req, res) => {
   }
 });
 
+app.get("/robots.txt", (req, res) => {
+  const proto = String(req.headers["x-forwarded-proto"] || req.protocol || "https");
+  const host = String(req.headers["x-forwarded-host"] || req.get("host") || "");
+  const baseUrl = process.env.APP_URL || (host ? `${proto}://${host}` : "");
+  res.type("text/plain; charset=utf-8");
+  res.send(
+    [
+      "User-agent: *",
+      "Allow: /",
+      "Disallow: /api/admin/",
+      "",
+      baseUrl ? `Sitemap: ${baseUrl.replace(/\/$/, "")}/sitemap.xml` : "Sitemap: /sitemap.xml",
+    ].join("\n")
+  );
+});
+
+app.get("/sitemap.xml", (req, res) => {
+  const proto = String(req.headers["x-forwarded-proto"] || req.protocol || "https");
+  const host = String(req.headers["x-forwarded-host"] || req.get("host") || "");
+  const baseUrl = (process.env.APP_URL || (host ? `${proto}://${host}` : "https://precobaixoatacadista.com.br")).replace(/\/$/, "");
+  const lastMod = new Date().toISOString().slice(0, 10);
+  const urls = [
+    { loc: `${baseUrl}/`, changefreq: "daily", priority: "1.0" },
+    { loc: `${baseUrl}/#ofertas`, changefreq: "weekly", priority: "0.9" },
+    { loc: `${baseUrl}/#lojas`, changefreq: "monthly", priority: "0.9" },
+    { loc: `${baseUrl}/#servicos`, changefreq: "monthly", priority: "0.8" },
+    { loc: `${baseUrl}/#historia`, changefreq: "monthly", priority: "0.7" },
+  ];
+  const xml = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ...urls.map(
+      (u) =>
+        `  <url>\n    <loc>${u.loc}</loc>\n    <lastmod>${lastMod}</lastmod>\n    <changefreq>${u.changefreq}</changefreq>\n    <priority>${u.priority}</priority>\n  </url>`
+    ),
+    "</urlset>",
+  ].join("\n");
+  res.type("application/xml; charset=utf-8");
+  res.send(xml);
+});
+
+app.use("/pb-assets/uploads", express.static(UPLOADS_DIR));
+
 async function startServer() {
-  app.get("/robots.txt", (req, res) => {
-    const proto = String(req.headers["x-forwarded-proto"] || req.protocol || "https");
-    const host = String(req.headers["x-forwarded-host"] || req.get("host") || "");
-    const baseUrl = process.env.APP_URL || (host ? `${proto}://${host}` : "");
-    res.type("text/plain; charset=utf-8");
-    res.send(
-      [
-        "User-agent: *",
-        "Allow: /",
-        "Disallow: /api/admin/",
-        "",
-        baseUrl ? `Sitemap: ${baseUrl.replace(/\/$/, "")}/sitemap.xml` : "Sitemap: /sitemap.xml",
-      ].join("\n")
-    );
-  });
-
-  app.get("/sitemap.xml", (req, res) => {
-    const proto = String(req.headers["x-forwarded-proto"] || req.protocol || "https");
-    const host = String(req.headers["x-forwarded-host"] || req.get("host") || "");
-    const baseUrl = (process.env.APP_URL || (host ? `${proto}://${host}` : "https://precobaixoatacadista.com.br")).replace(/\/$/, "");
-    const lastMod = new Date().toISOString().slice(0, 10);
-    const urls = [
-      { loc: `${baseUrl}/`, changefreq: "daily", priority: "1.0" },
-      { loc: `${baseUrl}/#ofertas`, changefreq: "weekly", priority: "0.9" },
-      { loc: `${baseUrl}/#lojas`, changefreq: "monthly", priority: "0.9" },
-      { loc: `${baseUrl}/#servicos`, changefreq: "monthly", priority: "0.8" },
-      { loc: `${baseUrl}/#historia`, changefreq: "monthly", priority: "0.7" },
-    ];
-    const xml = [
-      '<?xml version="1.0" encoding="UTF-8"?>',
-      '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-      ...urls.map(
-        (u) =>
-          `  <url>\n    <loc>${u.loc}</loc>\n    <lastmod>${lastMod}</lastmod>\n    <changefreq>${u.changefreq}</changefreq>\n    <priority>${u.priority}</priority>\n  </url>`
-      ),
-      "</urlset>",
-    ].join("\n");
-    res.type("application/xml; charset=utf-8");
-    res.send(xml);
-  });
-
-  app.use("/pb-assets/uploads", express.static(UPLOADS_DIR));
-
+  const { createServer: createViteServer } = await import("vite");
   const vite = await createViteServer({
     server: { middlewareMode: true },
     appType: "spa",
@@ -987,4 +998,8 @@ async function startServer() {
   });
 }
 
-startServer();
+if (!process.env.VERCEL) {
+  startServer();
+}
+
+export default app;

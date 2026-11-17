@@ -20,9 +20,17 @@ const VAULT_KEY = crypto.scryptSync(BASE_SECRET, "pb-salt-2026", 32);
 const DATA_KEY = crypto.scryptSync(BASE_SECRET, "pb-data-pii-salt-2026", 32);
 const TOKEN_KEY = crypto.scryptSync(BASE_SECRET, "pb-session-token-salt-2026", 32);
 
-const DATA_DIR = path.resolve(process.cwd(), "server-data");
+const BUNDLED_DATA_DIR = path.resolve(process.cwd(), "server-data");
+const DATA_DIR = process.env.VERCEL ? "/tmp/pb-server-data" : BUNDLED_DATA_DIR;
 const AUTH_VAULT_FILE = path.join(DATA_DIR, "auth-vault.enc");
 fs.mkdirSync(DATA_DIR, { recursive: true });
+if (
+  process.env.VERCEL &&
+  !fs.existsSync(AUTH_VAULT_FILE) &&
+  fs.existsSync(path.join(BUNDLED_DATA_DIR, "auth-vault.enc"))
+) {
+  fs.copyFileSync(path.join(BUNDLED_DATA_DIR, "auth-vault.enc"), AUTH_VAULT_FILE);
+}
 
 const REVOKED_TOKENS = new Set<string>();
 const TOKEN_TTL_MS = 12 * 60 * 60 * 1000; // 12 horas
