@@ -1,0 +1,195 @@
+{
+  "jobs": [
+    {
+      "id": "vaga-01",
+      "title": "Operador(a) de Caixa",
+      "unit": "PB Augusto Montenegro",
+      "department": "Frente de Caixa",
+      "contractType": "CLT · Efetivo",
+      "schedule": "Escala 6x1 · Turno Tarde/Noite",
+      "description": "Realizar atendimento acolhedor aos clientes no checkout, registro ágil de mercadorias e operações de pagamento (Cartão PB, PIX, débito e crédito).",
+      "requirements": [
+        "Ensino médio completo",
+        "Simpatia, agilidade e atenção aos detalhes",
+        "Desejável experiência prévia em supermercado ou atacarejo"
+      ],
+      "benefits": [
+        "Salário compatível com o mercado",
+        "Vale-transporte e refeição no local",
+        "Desconto em compras nas lojas do Grupo PB",
+        "Plano de crescimento interno"
+      ],
+      "active": true,
+      "createdAt": "2026-11-10T10:00:00.000Z"
+    },
+    {
+      "id": "vaga-02",
+      "title": "Repositor(a) de Mercearia e Hortifrúti",
+      "unit": "PB Cidade Nova",
+      "department": "Operação de Loja",
+      "contractType": "CLT · Efetivo",
+      "schedule": "Escala 6x1 · Manhã",
+      "description": "Organizar gôndolas, conferir datas de validade (PVPS), precificar produtos e apoiar os clientes nos corredores de mercearia e hortifrúti.",
+      "requirements": [
+        "Ensino médio completo",
+        "Disponibilidade para trabalho dinâmico em loja",
+        "Comprometimento e trabalho em equipe"
+      ],
+      "benefits": [
+        "Vale-transporte",
+        "Refeitório na unidade",
+        "Cartão PB Colaborador",
+        "Oportunidade de promoção"
+      ],
+      "active": true,
+      "createdAt": "2026-11-12T14:30:00.000Z"
+    },
+    {
+      "id": "vaga-03",
+      "title": "Açougueiro(a) / Balconista de Carnes",
+      "unit": "PB Senador Lemos",
+      "department": "Açougue & Perecíveis",
+      "contractType": "CLT · Efetivo",
+      "schedule": "Escala 6x1 · Integral",
+      "description": "Preparar cortes bovinos, suínos e aves para a Quarta da Carne e atendimento diário no balcão, mantendo rigorosos padrões de higiene.",
+      "requirements": [
+        "Experiência comprovada em açougue",
+        "Conhecimento em cortes comerciais e desossa",
+        "Zelo pelas normas de segurança alimentar"
+      ],
+      "benefits": [
+        "Salário + adicional de função",
+        "Vale-transporte e alimentação",
+        "Convênio farmácia PB Farma"
+      ],
+      "active": true,
+      "createdAt": "2026-11-13T09:15:00.000Z"
+    },
+    {
+      "id": "vaga-04",
+      "title": "Atendente de Farmácia (Balconista)",
+      "unit": "PB Tapanã",
+      "department": "PB Farma",
+      "contractType": "CLT · Efetivo",
+      "schedule": "Escala 6x1 · Tarde",
+      "description": "Atendimento ao público na PB Farma, organização de dermocosméticos, perfumaria e apoio na dispensação sob supervisão farmacêutica.",
+      "requirements": [
+        "Ensino médio completo",
+        "Experiência em drogaria ou atendimento ao cliente",
+        "Boa comunicação"
+      ],
+      "benefits": [
+        "Comissão sobre vendas de perfumaria",
+        "Vale-transporte e refeição",
+        "Descontos na rede PB Farma"
+      ],
+      "active": true,
+      "createdAt": "2026-11-14T11:00:00.000Z"
+    },
+    {
+      "id": "vaga-05",
+      "title": "Jovem Aprendiz — Auxiliar Administrativo / Loja",
+      "unit": "Todas as Lojas",
+      "department": "Administrativo & Loja",
+      "contractType": "Jovem Aprendiz",
+      "schedule": "Meio período (Manhã ou Tarde)",
+      "description": "Programa de formação para jovens que buscam o primeiro emprego em rotinas administrativas, apoio ao atendimento e organização de loja.",
+      "requirements": [
+        "Idade entre 16 e 22 anos",
+        "Estar cursando ou ter concluído o Ensino Médio",
+        "Vontade de aprender e crescer no varejo"
+      ],
+      "benefits": [
+        "Bolsa-auxílio + vale-transporte",
+        "Curso de capacitação profissional",
+        "Possibilidade de efetivação"
+      ],
+      "active": true,
+      "createdAt": "2026-11-15T08:00:00.000Z"
+    }
+  ],
+  "applications": [
+    {
+      "id": "cand-1794866855536",
+      "protocol": "PB-2026-5415",
+      "jobId": "vaga-04",
+      "jobTitle": "Atendente de Farmácia (Balconista)",
+      "unit": "PB Tapanã",
+      "fullName": "5445545",
+      "cpf": "enc:v1:aX2jdnWh5Hd0-lEJ:4MnV9sefw80LNbo1F4eSFQ:YgG21RN-fA",
+      "birthDate": "",
+      "phone": "enc:v1:EPFB2G0p5q6GOIcd:QGAEsd5vFaeWRun3qBWxdg:3okbieYl2uGfzA",
+      "email": "enc:v1:JAT4csIAwW7T0eJC:rTK8LPMFGLPDM-sBERK0qw:MRVeEg",
+      "neighborhood": "enc:v1:ICnoDJRrU3YK9QtL:CoMQCAHIg7W21Zap4m4FxA:9Am4lSW-",
+      "education": "Ensino Médio Completo",
+      "availability": "Total (Manhã / Tarde / Noite)",
+      "lastExperience": "455445",
+      "summary": "455454",
+      "status": "Novo",
+      "createdAt": "2026-11-16T22:07:35.536Z"
+    },
+    {
+      "id": "cand-01",
+      "protocol": "PB-2026-4108",
+      "jobId": "vaga-01",
+      "jobTitle": "Operador(a) de Caixa",
+      "unit": "PB Augusto Montenegro",
+      "fullName": "Mariana Silva Souza",
+      "cpf": "enc:v1:cNiLWmIxCG1TL2Qx:ZlrU88vwSWaL_ez3whiykA:7SPoYVxZqxyV4qtqdFE",
+      "birthDate": "enc:v1:qFY6OYiJjGzkXvEK:CkWBwUaPNlvfy7WppS2-7A:mXqIz1IWE67NYw",
+      "phone": "enc:v1:gBVRQ--dvrxxbwBL:5yffVUp3a9SNxypdUrl_Cg:zU-cnz20Y26vpFBHkfMX",
+      "email": "enc:v1:U29VP7ab33aOgkYW:GfASCJN3mCRgr9YvB3ka2g:CLgrpf6GGuMKKatQewtDff9thjy4XC4VkA",
+      "neighborhood": "enc:v1:ePmjJVsRSbXgVvr_:VOIML4Lr55cFuCV189Pa1w:o4zd1OBkcffTumoBS_RxTOEL_Z-KwkGS4g",
+      "education": "Ensino Médio Completo",
+      "availability": "Total (Manhã / Tarde / Noite)",
+      "lastExperience": "Supermercado Central — Operadora de Caixa (2 anos)",
+      "summary": "Experiência com frente de caixa, fechamento financeiro e atendimento ágil ao público.",
+      "status": "Em Análise",
+      "createdAt": "2026-11-15T15:20:00.000Z",
+      "resumeStoredName": "sample-mariana-souza.pdf",
+      "resumeFileName": "Curriculo_Mariana_Silva_Souza.pdf"
+    },
+    {
+      "id": "cand-02",
+      "protocol": "PB-2026-4112",
+      "jobId": "vaga-03",
+      "jobTitle": "Açougueiro(a) / Balconista de Carnes",
+      "unit": "PB Senador Lemos",
+      "fullName": "Carlos Eduardo Ferreira",
+      "cpf": "enc:v1:fMqjMB4_UVFg-97V:jEBZsMVN43UUWRn3L69OQQ:ttJShfJbCutwQ5tLWCw",
+      "birthDate": "enc:v1:mm82jf1kF8NiL4zC:0iF4c0WCDWg3xx6b0GhrHA:0o8LKwR72IR4Ag",
+      "phone": "enc:v1:KURqkq9dILvyFdeC:v2-KqmCvsGpjg-6M76D-tg:5yJQ7tdK-3ttuFjdPUos",
+      "email": "enc:v1:3FAr74-pNzxfRToH:-431RxMmcEb7pqG0WhtqhA:L4YENVs1EBB80FukojzoG6nMCdFYVCVaQ0c",
+      "neighborhood": "enc:v1:5bn1PYJ__LQuj1lJ:WGKOnJihHioZ9Qxyh3mi9w:Qcjsn4lgv56tTqlsj1m-EEzyYjpFPJk",
+      "education": "Ensino Médio Completo",
+      "availability": "Integral",
+      "lastExperience": "Frigorífico Paraense — Açougueiro Líder (4 anos)",
+      "summary": "Especialista em cortes bovinos e suínos, desossa rápida e atendimento em balcão.",
+      "status": "Entrevista",
+      "createdAt": "2026-11-16T09:45:00.000Z",
+      "resumeStoredName": "sample-carlos-ferreira.pdf",
+      "resumeFileName": "Curriculo_Carlos_Eduardo_Ferreira.pdf"
+    }
+  ],
+  "imageOverrides": {},
+  "textOverrides": {},
+  "themeConfig": {
+    "navbarBg": "#0C2168",
+    "navbarText": "#FFFFFF",
+    "primaryBtnBg": "#E7353A",
+    "primaryBtnText": "#FFFFFF",
+    "secondaryBtnBg": "#0C2168",
+    "secondaryBtnText": "#FFFFFF"
+  },
+  "layoutConfig": {
+    "sectionOrder": [
+      "hero",
+      "offers",
+      "history",
+      "stores",
+      "services",
+      "community"
+    ],
+    "cardOrders": {}
+  }
+}

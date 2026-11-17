@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: #F4F7FB;
+    color: #1E293B;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: -0.02em;
+  }
+}
+
+:root {
+  --pb-nav-bg: #0C2168;
+  --pb-nav-text: #FFFFFF;
+  --pb-btn-primary-bg: #E7353A;
+  --pb-btn-primary-text: #FFFFFF;
+  --pb-btn-navy-bg: #0C2168;
+  --pb-btn-navy-text: #FFFFFF;
+}
+
+.pb-hero-pattern {
+  background-color: #0C2168;
+  background-image:
+    radial-gradient(circle at 82% 22%, rgba(231, 53, 58, 0.22) 0%, transparent 45%),
+    radial-gradient(circle at 15% 85%, rgba(42, 67, 147, 0.48) 0%, transparent 50%),
+    linear-gradient(135deg, rgba(10, 27, 88, 0.96) 0%, rgba(18, 44, 130, 0.9) 55%, rgba(12, 33, 104, 0.97) 100%),
+    url('/pb-assets/bg-hero.webp');
+  background-size: cover;
+  background-position: center;
+}
+
+.pb-btn-primary {
+  background-color: var(--pb-btn-primary-bg, #E7353A);
+  color: var(--pb-btn-primary-text, #FFFFFF);
+  @apply font-bold shadow-lg shadow-slate-900/15 transition-all duration-200 ease-out hover:brightness-110 active:scale-[0.98];
+}
+
+.pb-btn-navy {
+  background-color: var(--pb-btn-navy-bg, #0C2168);
+  color: var(--pb-btn-navy-text, #FFFFFF);
+  @apply font-bold shadow-md shadow-slate-900/10 transition-all duration-200 ease-out hover:brightness-110 active:scale-[0.98];
+}
+
+.pb-card-surface {
+  @apply bg-white border border-slate-200/80 shadow-[0_2px_12px_-4px_rgba(12,33,104,0.06)] hover:shadow-[0_12px_28px_-8px_rgba(12,33,104,0.12)] transition-all duration-200 ease-out;
+}
+
+.pb-layout-editing img,
+.pb-layout-editing a {
+  -webkit-user-drag: none;
+}

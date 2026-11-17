@@ -1,0 +1,6 @@
+{
+  "name": "Preço Baixo Atacadista",
+  "description": "O verdadeiro atacarejo com preço de atacado e varejo. Economia garantida para sua família e seu negócio.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
