@@ -22,21 +22,25 @@ import {
   revokeAdminToken,
   updateRhUser,
   verifyEncryptedAdminToken,
-} from "./server-security";
+} from "./server-security.js";
 
 dotenv.config();
 
 const app = express();
 app.use(express.json({ limit: "20mb" }));
 
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY || "",
-  httpOptions: {
-    headers: {
-      "User-Agent": "aistudio-build",
+function getAiClient(): GoogleGenAI | null {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) return null;
+  return new GoogleGenAI({
+    apiKey,
+    httpOptions: {
+      headers: {
+        "User-Agent": "aistudio-build",
+      },
     },
-  },
-});
+  });
+}
 
 // Persistent local JSON store (or /tmp seeded store on Vercel serverless)
 const BUNDLED_DATA_DIR = path.resolve(process.cwd(), "server-data");
@@ -52,10 +56,14 @@ fs.mkdirSync(RESUMES_DIR, { recursive: true });
 fs.mkdirSync(UPLOADS_DIR, { recursive: true });
 
 if (process.env.VERCEL && !fs.existsSync(DB_FILE) && fs.existsSync(path.join(BUNDLED_DATA_DIR, "db.json"))) {
-  fs.copyFileSync(path.join(BUNDLED_DATA_DIR, "db.json"), DB_FILE);
-  const bundledResumes = path.join(BUNDLED_DATA_DIR, "resumes");
-  if (fs.existsSync(bundledResumes)) {
-    fs.cpSync(bundledResumes, RESUMES_DIR, { recursive: true, force: false });
+  try {
+    fs.copyFileSync(path.join(BUNDLED_DATA_DIR, "db.json"), DB_FILE);
+    const bundledResumes = path.join(BUNDLED_DATA_DIR, "resumes");
+    if (fs.existsSync(bundledResumes)) {
+      fs.cpSync(bundledResumes, RESUMES_DIR, { recursive: true, force: false });
+    }
+  } catch (err) {
+    console.warn("Vercel /tmp seed warning:", err);
   }
 }
 
@@ -923,6 +931,11 @@ app.post("/api/ai/recipe", async (req, res) => {
       "wholesaleTip": "Dica de economia comprando em volume no Preço Baixo Atacadista"
     }`;
 
+    const ai = getAiClient();
+    if (!ai) {
+      return res.status(503).json({ error: "Chave GEMINI_API_KEY não configurada no servidor." });
+    }
+
     const response = await ai.models.generateContent({
       model: "gemini-4-hydrogen",
       contents: prompt,
@@ -997,6 +1010,14 @@ async function startServer() {
     console.log(`Server running on http://localhost:${port}`);
   });
 }
+
+app.use((err: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+  console.error("Unhandled Express error:", err);
+  const message = err instanceof Error ? err.message : "Erro interno no servidor";
+  if (!res.headersSent) {
+    res.status(500).json({ error: message });
+  }
+});
 
 if (!process.env.VERCEL) {
   startServer();

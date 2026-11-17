@@ -210,16 +210,27 @@ export const SiteDataProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const isSuperAdmin = Boolean(adminToken && adminUser?.roleKey === 'super_admin');
 
+  const parseApiJson = async (res: Response, fallbackError: string) => {
+    const raw = await res.text();
+    let data: Record<string, any> = {};
+    try {
+      data = raw ? (JSON.parse(raw) as Record<string, any>) : {};
+    } catch {
+      throw new Error(raw ? `${fallbackError} (${raw.slice(0, 80)})` : fallbackError);
+    }
+    if (!res.ok) {
+      throw new Error(String(data.error || fallbackError));
+    }
+    return data;
+  };
+
   const loginAdmin = useCallback(async (username: string, password: string) => {
     const res = await fetch('/api/admin/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password }),
     });
-    const data = await res.json();
-    if (!res.ok) {
-      throw new Error(data.error || 'Falha na autenticação administrativa.');
-    }
+    const data = await parseApiJson(res, 'Falha na autenticação administrativa.');
     const superFlag = data.user?.roleKey === 'super_admin';
     setAdminToken(data.token);
     setAdminUser(data.user);
@@ -241,10 +252,7 @@ export const SiteDataProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const res = await fetch('/api/admin/test-login', {
       method: 'POST',
     });
-    const data = await res.json();
-    if (!res.ok) {
-      throw new Error(data.error || 'Falha no acesso automático de teste.');
-    }
+    const data = await parseApiJson(res, 'Falha no acesso automático de teste.');
     const superFlag = data.user?.roleKey === 'super_admin';
     setAdminToken(data.token);
     setAdminUser(data.user);
